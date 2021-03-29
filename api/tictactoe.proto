@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package tictactoe;
+
+option go_package = "api/tictactoe";
+
+// message User {
+//   string id = 1;
+//   string name = 2;
+// }
+
+// message Message {
+//   string id = 1;
+//   string content = 2;
+//   string timestamp = 3;
+// }
+
+// message Connect {
+//   User user = 1;
+//   bool active = 2;
+// }
+
+// message Close {}
+
+// message Close {}
+
+message MessageRequest {
+    string id = 1;
+    bool init = 2;
+    string room = 3;
+    int32 x = 4;
+    int32 y = 5;
+}
+
+message MessageResponse {
+    enum State {
+        DRAWN = 0;
+        X_WINS = 1;
+        O_WINS = 2;
+        NOT_FINISHED = 3;
+        WAITING = 4;
+        WAIT_TURN = 5;
+        INVALID = 6;
+    }
+    State state = 1;
+    MessageRequest req = 2;
+    bool isX = 3;
+    bool isCompetitorSend = 4;
+}
+
+service Tictactoe {
+//   rpc CreateStream(Connect) returns (stream Message);
+//   rpc BroadcastMessage(Message) returns (Close);
+  rpc PlayStream(stream MessageRequest) returns (stream MessageResponse);
+}
